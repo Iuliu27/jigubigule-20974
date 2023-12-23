@@ -23,7 +23,8 @@ public class HardwareMapp {
     /*Scriu aici ce mai trebuie facut:
      * Prindere pixeli(hook)-gata(nush exact daca trebuie sa verific in ColorDetected)
      * Sa fac sa lumineze LED-urile-gata(mai trebuie blinking pentru alb)
-     * Implementare senzori de culoare*/
+     * Implementare senzori de culoare
+     * In rest Doamne ajuta*/
 
     double PI = 3.1415;
     double GEAR_MOTOR_GOBILDA_312_TICKS = 537.7;
@@ -169,34 +170,34 @@ public class HardwareMapp {
         };
     }
 
-    /*public Action maturiceLevel(String stare){
+    public Action maturiceLevel(String stare){
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
                     case "Level1":
-                        intakeServoLeft.setPosition(DefVal.iLevel1);
-                        intakeServoRight.setPosition(DefVal.iLevel1);
+                        intakeServoLeft.setPosition(Variables.iLevel1);
+                        intakeServoRight.setPosition(Variables.iLevel1);
                     case "Level2":
-                        intakeServoLeft.setPosition(DefVal.iLevel2);
-                        intakeServoRight.setPosition(DefVal.iLevel2);
+                        intakeServoLeft.setPosition(Variables.iLevel2);
+                        intakeServoRight.setPosition(Variables.iLevel2);
                     case "Level3":
-                        intakeServoLeft.setPosition(DefVal.iLevel3);
-                        intakeServoRight.setPosition(DefVal.iLevel3);
+                        intakeServoLeft.setPosition(Variables.iLevel3);
+                        intakeServoRight.setPosition(Variables.iLevel3);
                     case "Level4":
-                        intakeServoLeft.setPosition(DefVal.iLevel4);
-                        intakeServoRight.setPosition(DefVal.iLevel4);
+                        intakeServoLeft.setPosition(Variables.iLevel4);
+                        intakeServoRight.setPosition(Variables.iLevel4);
                     case "Level5":
-                        intakeServoLeft.setPosition(DefVal.iLevel5);
-                        intakeServoRight.setPosition(DefVal.iLevel5);
+                        intakeServoLeft.setPosition(Variables.iLevel5);
+                        intakeServoRight.setPosition(Variables.iLevel5);
                     case "Level6":
-                        intakeServoLeft.setPosition(DefVal.iLevel6);
-                        intakeServoRight.setPosition(DefVal.iLevel6);
+                        intakeServoLeft.setPosition(Variables.iLevel6);
+                        intakeServoRight.setPosition(Variables.iLevel6);
                 }
                 return false;
             }
         };
-    }*/
+    }
 
     float[] hsvValues = new float[3];
     Scalar detectedColorHSV = new Scalar(hsvValues[0], hsvValues[1], hsvValues[2]);
@@ -302,30 +303,30 @@ public class HardwareMapp {
         };
     }
 
-    /*public Action misum(String stare){
+    public Action misum(String stare){
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
                     case "GROUND":
-                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftGROUND*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftGROUND*TICKS_PER_CM_Z);
+                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftGROUND*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftGROUND*TICKS_PER_CM_Z);
                     case "LOW":
-                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftLOW*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftLOW*TICKS_PER_CM_Z);
+                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftLOW*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftLOW*TICKS_PER_CM_Z);
                     case "MIDDLE":
-                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftMIDDLE*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftMIDDLE*TICKS_PER_CM_Z);
+                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftMIDDLE*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftMIDDLE*TICKS_PER_CM_Z);
                     case "HIGH":
-                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftHIGH*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftHIGH*TICKS_PER_CM_Z);
+                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftHIGH*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftHIGH*TICKS_PER_CM_Z);
                 }
                 misumMotorLeft.setPower(1);
                 misumMotorRight.setPower(1);
                 return false;
             }
         };
-    }*/
+    }
 
     public Action hook1(String stare){
         return new Action() {
