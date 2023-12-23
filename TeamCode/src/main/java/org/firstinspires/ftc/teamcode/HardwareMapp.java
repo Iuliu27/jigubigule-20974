@@ -1,0 +1,373 @@
+package org.firstinspires.ftc.teamcode;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
+//import org.firstinspires.ftc.teamcode.Variables.DefVal;
+import org.opencv.core.Scalar;
+
+public class HardwareMapp {
+
+    /*Scriu aici ce mai trebuie facut:
+     * Prindere pixeli(hook)-gata(nush exact daca trebuie sa verific in ColorDetected)
+     * Sa fac sa lumineze LED-urile-gata(mai trebuie blinking pentru alb)
+     * Implementare senzori de culoare*/
+
+    double PI = 3.1415;
+    double GEAR_MOTOR_GOBILDA_312_TICKS = 537.7;
+    double WHEEL_DIAMETER_CM = 3.565;
+    double TICKS_PER_CM_Z = GEAR_MOTOR_GOBILDA_312_TICKS / (WHEEL_DIAMETER_CM * PI);
+
+    public enum LEDColor{
+        Purple, //red
+        Green,  //green
+        Yellow, //between red & green(amber)
+        White, //blinking
+        None //none
+    }
+    public DcMotorEx hangMotor;  //motor pentru ridicat robotul in hang
+    public DcMotorEx misumMotorLeft;  //motor pentru misum-ul stang
+    public DcMotorEx misumMotorRight;  //motor pentru misum-ul drept
+    public DcMotorEx intakeMotor;  //motor pentru maturice           //motoare
+
+    public CRServo intakeCRServo;  //servo CR pentru intake
+    public Servo outakeServo;  //servo pentru deschis outake-ul
+    public Servo planeServo; //servo pentru avion
+    public Servo servoHook1;
+    public Servo servoHook2;
+    public Servo intakeServoLeft;
+    public Servo intakeServoRight;                                  //servouri
+
+    public SensorColor SensorfirstHook;  //senzor pentru primul pixel
+    public SensorColor SensorsecondHook;  //senzor pentru al doilea pixel
+
+    public DigitalChannel LEDdowngreen;
+    public DigitalChannel LEDupgreen;
+    public DigitalChannel LEDdownred;
+    public DigitalChannel LEDupred;
+
+    BNO055IMU imu;
+    HardwareMap HW=null;
+    public HardwareMapp(){}
+
+    public void init() {
+
+        //HW=hw;
+
+        hangMotor=HW.get(DcMotorEx.class,"hangMotor");
+        misumMotorLeft=HW.get(DcMotorEx.class,"misumMotorLeft");
+        misumMotorRight=HW.get(DcMotorEx.class,"misumMotorRight");
+        intakeMotor=HW.get(DcMotorEx.class,"intakeMotor");
+
+        intakeCRServo=HW.get(CRServo.class,"intakeServo");
+        outakeServo=HW.get(Servo.class,"outakeServo");
+        planeServo=HW.get(Servo.class,"planeServo");
+        servoHook1=HW.get(Servo.class,"hook1");
+        servoHook2=HW.get(Servo.class,"hook2");
+        intakeServoLeft=HW.get(Servo.class,"intakeServoLeft");
+        intakeServoRight=HW.get(Servo.class,"intakeServoRight");
+
+        SensorfirstHook=HW.get(SensorColor.class,"firstHookPixel");
+        SensorsecondHook=HW.get(SensorColor.class,"secondHookPixel");
+
+        LEDdowngreen=HW.get(DigitalChannel.class,"LEDdownGreen");
+        LEDdownred=HW.get(DigitalChannel.class,"LEDdownRed");
+        LEDupgreen=HW.get(DigitalChannel.class,"LEDupGreen");
+        LEDupred=HW.get(DigitalChannel.class,"LEDupRed");
+
+        //imu=HW.get(BNO055IMU.class,"imu");
+    }
+
+    public Action launchPlane(){     //actiune pentru decolarea avionului
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                planeServo.setPosition(0.2);
+                return false;
+            }
+        };
+    }
+    public Action Intake(String stare){     //actiune pentru intake (roller)
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "lessThan2Pixels":
+                        intakeCRServo.setPower(1);
+                        break;
+                    case "moreThan2Pixels":
+                        intakeCRServo.setPower(-1);
+                        break;
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action hang(String stare){     //actiune pentru hang
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "up":
+                        hangMotor.setPower(1);
+                        CommandScheduler.getInstance().schedule(new WaitCommand(1500));
+                        hangMotor.setPower(0);
+                        break;
+                    case "hang":
+                        hangMotor.setPower(0);
+                        break;
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action openOutake(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "open":
+                        outakeServo.setPosition(0.6);
+                        break;
+                    case "close":
+                        outakeServo.setPosition(0);
+                        break;
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action maturiceOpen_Close(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare) {
+                    case "in":
+                        intakeMotor.setPower(1);
+                        break;
+                    case "out":
+                        intakeMotor.setPower(-1);
+                        break;
+                }
+                return false;
+            }
+        };
+    }
+
+    /*public Action maturiceLevel(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "Level1":
+                        intakeServoLeft.setPosition(DefVal.iLevel1);
+                        intakeServoRight.setPosition(DefVal.iLevel1);
+                    case "Level2":
+                        intakeServoLeft.setPosition(DefVal.iLevel2);
+                        intakeServoRight.setPosition(DefVal.iLevel2);
+                    case "Level3":
+                        intakeServoLeft.setPosition(DefVal.iLevel3);
+                        intakeServoRight.setPosition(DefVal.iLevel3);
+                    case "Level4":
+                        intakeServoLeft.setPosition(DefVal.iLevel4);
+                        intakeServoRight.setPosition(DefVal.iLevel4);
+                    case "Level5":
+                        intakeServoLeft.setPosition(DefVal.iLevel5);
+                        intakeServoRight.setPosition(DefVal.iLevel5);
+                    case "Level6":
+                        intakeServoLeft.setPosition(DefVal.iLevel6);
+                        intakeServoRight.setPosition(DefVal.iLevel6);
+                }
+                return false;
+            }
+        };
+    }*/
+
+    float[] hsvValues = new float[3];
+    Scalar detectedColorHSV = new Scalar(hsvValues[0], hsvValues[1], hsvValues[2]);
+
+    public static class ColorRange{
+        public Scalar[] greenColorRange = {
+                new Scalar(40, 40, 40), // Valoare minimă HSV pentru verde
+                new Scalar(80, 255, 255) // Valoare maximă HSV pentru verde
+        };
+        public Scalar[] yellowColorRange={
+                new Scalar(20,100,100), //Valoare minima HSV pentru galben
+                new Scalar(30,255,255) //Valoare maxima HSV pentru galben
+        };
+        public Scalar[] purpleColorRange={
+                new Scalar(130,50,50), //Valoare minima HSV pentru mov
+                new Scalar(160,255,255) //Valoare maxima HSV pentru mov
+        };
+        public Scalar[] whiteColorRange={
+                new Scalar(0,0,200), //Valoare minima HSV pentru alb
+                new Scalar(180,30,255) //Valoare maxima HSV pentru alb
+        };
+    }
+    public LEDColor ColorDetected(Scalar targetColor, Scalar[] colorRange){
+        ColorRange colorRangeDet=new ColorRange();
+        if(detectedColorHSV.val[0] >= colorRangeDet.greenColorRange[0].val[0] && detectedColorHSV.val[0] <= colorRangeDet.greenColorRange[1].val[0]){
+            //vede culoare verde
+            //Leduri
+            return LEDColor.Green;
+            //cod pentru hook
+
+        }
+        if(detectedColorHSV.val[0] >= colorRangeDet.yellowColorRange[0].val[0] && detectedColorHSV.val[0] <= colorRangeDet.yellowColorRange[1].val[0]){
+            //vede culoaregalben
+            //Leduri
+            return LEDColor.Yellow;
+        }
+        if(detectedColorHSV.val[0] >= colorRangeDet.whiteColorRange[0].val[0] && detectedColorHSV.val[0] <= colorRangeDet.whiteColorRange[1].val[0]){
+            //vede culoare alb
+            //Leduri
+            return LEDColor.White;
+        }
+        if(detectedColorHSV.val[0] >= colorRangeDet.purpleColorRange[0].val[0] && detectedColorHSV.val[0] <= colorRangeDet.purpleColorRange[1].val[0]){
+            //vede culoare mov
+            //Leduri
+            return LEDColor.Purple;
+        }
+        return LEDColor.None;
+    }
+
+    public Action LED(String led){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                DigitalChannel LED1=null;
+                DigitalChannel LED2=null;
+                if(led.equals("up")){
+                    LED1=LEDupgreen;
+                    LED2=LEDupred;
+                }
+                if(led.equals("down")){
+                    LED1=LEDdowngreen;
+                    LED2=LEDdownred;
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action LEDforDrivers(String stare,DigitalChannel LED1,DigitalChannel LED2){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare) {
+                    case "NONE":
+                        LED1.setState(false); //LED1=green,LED2=red
+                        LED2.setState(false);
+                    case "GREEN":
+                        LED1.setState(true);
+                        LED2.setState(false);
+                    case "PURPLE":
+                        LED1.setState(false);
+                        LED2.setState(true);
+                    case "YELLOW":
+                        LED1.setState(true);
+                        LED2.setState(true);
+                    case "WHITE":
+                        Actions.runBlocking(WhitePixelBlinking(LED1,LED2)); //trebuie facuta actiunea de blinking
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action WhitePixelBlinking(DigitalChannel LED1, DigitalChannel LED2){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                //cod pentru blinking
+                LED1.setState(true);LED2.setState(true);
+
+                return true;
+            }
+        };
+    }
+
+    /*public Action misum(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "GROUND":
+                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftGROUND*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftGROUND*TICKS_PER_CM_Z);
+                    case "LOW":
+                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftLOW*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftLOW*TICKS_PER_CM_Z);
+                    case "MIDDLE":
+                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftMIDDLE*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftMIDDLE*TICKS_PER_CM_Z);
+                    case "HIGH":
+                        misumMotorLeft.setPositionPIDFCoefficients(DefVal.LiftHIGH*TICKS_PER_CM_Z);
+                        misumMotorRight.setPositionPIDFCoefficients(DefVal.LiftHIGH*TICKS_PER_CM_Z);
+                }
+                misumMotorLeft.setPower(1);
+                misumMotorRight.setPower(1);
+                return false;
+            }
+        };
+    }*/
+
+    public Action hook1(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "pixel":
+                        servoHook1.setPosition(0.6);
+                    case "noPixel":
+                        servoHook1.setPosition(0);
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action hook2(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "pixel":
+                        servoHook2.setPosition(0.6);
+                    case "noPixel":
+                        servoHook2.setPosition(0);
+                }
+                return false;
+            }
+        };
+    }
+
+    /*public class imu{
+        public double TILT_THRESHOLD = 20;
+        public double ACCEL_THRESHOLD = 20;  //am pus valori cam random. Trebuie sa ma documentez
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Acceleration accel = imu.getLinearAcceleration();
+
+        double rollAngle = angles.secondAngle;
+        boolean isTilted = Math.abs(rollAngle) > TILT_THRESHOLD;
+
+        double lateralAcceleration = accel.yAccel;
+        boolean hasLateralAcceleration = Math.abs(lateralAcceleration) > ACCEL_THRESHOLD;
+
+    }*/
+}
