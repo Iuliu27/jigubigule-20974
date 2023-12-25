@@ -7,15 +7,16 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorColor;
-//import org.firstinspires.ftc.teamcode.Variables.DefVal;
 import org.opencv.core.Scalar;
 
 public class HardwareMapp {
@@ -30,6 +31,12 @@ public class HardwareMapp {
     double GEAR_MOTOR_GOBILDA_312_TICKS = 537.7;
     double WHEEL_DIAMETER_CM = 3.565;
     double TICKS_PER_CM_Z = GEAR_MOTOR_GOBILDA_312_TICKS / (WHEEL_DIAMETER_CM * PI);
+    public GamepadEx gamepad1Ex,gamepad2Ex;
+
+    public void gamepadInit(Gamepad gamepad1, Gamepad gamepad2){
+        gamepad1Ex = new GamepadEx(gamepad1);
+        gamepad2Ex = new GamepadEx(gamepad2);
+    }
 
     public enum LEDColor{
         Purple, //red
@@ -63,7 +70,7 @@ public class HardwareMapp {
     HardwareMap HW=null;
     public HardwareMapp(){}
 
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
 
         //HW=hw;
 
@@ -226,8 +233,6 @@ public class HardwareMapp {
             //vede culoare verde
             //Leduri
             return LEDColor.Green;
-            //cod pentru hook
-
         }
         if(detectedColorHSV.val[0] >= colorRangeDet.yellowColorRange[0].val[0] && detectedColorHSV.val[0] <= colorRangeDet.yellowColorRange[1].val[0]){
             //vede culoaregalben
