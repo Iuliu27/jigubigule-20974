@@ -24,37 +24,41 @@ import java.util.List;
 public class TeleOP extends LinearOpMode {
     HardwareMapp Robot=new HardwareMapp();
     private List<Action> runningActions = new ArrayList<>();
-    public int ok= 0;
+    private boolean isXPressed = false;
+    private boolean isYPressed=false;
+    private boolean isAPressed=false;
+    private boolean isBPressed=false;
+    private int isBumperPressed=0;
 
     //HardwareMapping hw=new HardwareMapping();
     private MecanumDrive drive;
 
     /**
      *  DRIVER 1
-     *   X         - Power on/off INTAKE
-     *   Y         - Engage hooks on/off
-     *   B         - Hanging
-     *   A         - Rotate outtake 90 degrees
+     *   X         - Power on/off INTAKE                 //Gata
+     *   Y         - Engage hooks on/off                 //Gata
+     *   B         - Hanging                             //Gata
+     *   A         - Rotate outtake 90 degrees           //Gata
      *   Left/Right stick - Base controls
-     *   Right stick press down - Launch plane
-     *   DPAD left     - Lift ground
-     *   DPAD down     - Lift 1st level
-     *   DPAD right    - Lift 2nd level
-     *   DPAD up       - Lift 3rd level
+     *   Right stick press down - Launch plane           //Gata
+     *   DPAD left     - Lift ground                     //Gata
+     *   DPAD down     - Lift 1st level                  //Gata
+     *   DPAD right    - Lift 2nd level                  //Gata
+     *   DPAD up       - Lift 3rd level                  //Gata
      *   LEFT/RIGHT BUMPER - Change intake angle
      *
      *   DRIVER 2
-     *   X         - Power on/off INTAKE
-     *   Y         - Engage hooks on/off
-     *   B         - Reverse intake
-     *   A         - Rotate outtake 90 degrees
+     *   X         - Power on/off INTAKE                 //Gata
+     *   Y         - Engage hooks on/off                 //Gata
+     *   B         - Reverse intake                      //Gata
+     *   A         - Rotate outtake 90 degrees           //Gata
      *   Left stick Y - manual slide control
      *   Left stick X - manual outtake pitch (keep 60 degree angle (in progress))
-     *   Right stick press down - Launch plane
-     *   DPAD left     - Lift ground
-     *   DPAD down     - Lift 1st level
-     *   DPAD right    - Lift 2nd level
-     *   DPAD up       - Lift 3rd level
+     *   Right stick press down - Launch plane           //Gata
+     *   DPAD left     - Lift ground                     //Gata
+     *   DPAD down     - Lift 1st level                  //Gata
+     *   DPAD right    - Lift 2nd level                  //Gata
+     *   DPAD up       - Lift 3rd level                  //Gata
      *   LEFT/RIGHT BUMPER - Change intake angle
      *   BACK          - Change movement mode
      *   START         - Change HEADING_LOCK target 0/180
@@ -103,26 +107,94 @@ public class TeleOP extends LinearOpMode {
                 ));
             }
 
-            //gamepad1
+            //gamepad1 && gamepad2
 
-            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.X)){
-                if(ok==0){
-                    ok=1;
+            if (Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.X) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.X)) {
+                if (!isXPressed) {
+                    isXPressed = true;
                     runningActions.add(new SequentialAction(
                             Robot.Intake("lessThan2Pixels")
                     ));
-                }
-                else{
-                    ok=0;
+                } else {
+                    isXPressed = false;
                     runningActions.add(new SequentialAction(
                             Robot.Intake("moreThan2Pixels")
                     ));
                 }
             }
-            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.Y)) {
-
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.Y) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.Y)){
+                if(!isYPressed){
+                    isYPressed=true;
+                    runningActions.add(new SequentialAction(
+                            Robot.hook1("pixel"),
+                            Robot.hook2("pixel")
+                    ));
+                } else {
+                    isYPressed=false;
+                    runningActions.add(new SequentialAction(
+                            Robot.hook1("noPixel"),
+                            Robot.hook2("noPixel")
+                    ));
+                }
             }
-
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.B)){
+                runningActions.add(Robot.hang("up"));
+            }
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.A) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.A)){
+                if(!isAPressed){
+                    isAPressed=true;
+                    runningActions.add(Robot.openOutake("turn"));
+                } else {
+                    isAPressed=false;
+                    runningActions.add(Robot.openOutake("noTurn"));
+                }
+            }
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)){
+                runningActions.add(Robot.launchPlane());
+            }
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_LEFT) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
+                runningActions.add(Robot.misum("GROUND"));
+            }
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_DOWN) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
+                runningActions.add(Robot.misum("LOW"));
+            }
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                runningActions.add(Robot.misum("MIDDLE"));
+            }
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_UP) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
+                runningActions.add(Robot.misum("HIGH"));
+            }
+            if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.B)){
+                if(!isBPressed){
+                    isBPressed=true;
+                    runningActions.add(Robot.maturiceOpen_Close("in"));
+                } else {
+                    isBPressed=false;
+                    runningActions.add(Robot.maturiceOpen_Close("out"));
+                }
+            }
+            if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){
+                isBumperPressed++;
+                if(isBumperPressed==1){
+                    runningActions.add(Robot.maturiceLevel("Level1"));
+                }
+                if(isBumperPressed==2){
+                    runningActions.add(Robot.maturiceLevel("Level2"));
+                }
+                if(isBumperPressed==3){
+                    runningActions.add(Robot.maturiceLevel("Level3"));
+                }
+                if(isBumperPressed==4){
+                    runningActions.add(Robot.maturiceLevel("Level4"));
+                }
+                if(isBumperPressed==5){
+                    runningActions.add(Robot.maturiceLevel("Level5"));
+                }
+                if(isBumperPressed==6){
+                    isBumperPressed=0;
+                    runningActions.add(Robot.maturiceLevel("Level6"));
+                }
+            }
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
                 action.preview(packet.fieldOverlay());

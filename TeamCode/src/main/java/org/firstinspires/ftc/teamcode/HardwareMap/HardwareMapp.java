@@ -56,7 +56,8 @@ public class HardwareMapp {
     public Servo servoHook1;
     public Servo servoHook2;
     public Servo intakeServoLeft;
-    public Servo intakeServoRight;                                  //servouri
+    public Servo intakeServoRight;
+    public Servo OutakeTurnServo;                   //servouri
 
     public SensorColor SensorfirstHook;  //senzor pentru primul pixel
     public SensorColor SensorsecondHook;  //senzor pentru al doilea pixel
@@ -86,6 +87,7 @@ public class HardwareMapp {
         servoHook2=HW.get(Servo.class,"hook2");
         intakeServoLeft=HW.get(Servo.class,"intakeServoLeft");
         intakeServoRight=HW.get(Servo.class,"intakeServoRight");
+        OutakeTurnServo=HW.get(Servo.class,"OutakeTurnServo");
 
         SensorfirstHook=HW.get(SensorColor.class,"firstHookPixel");
         SensorsecondHook=HW.get(SensorColor.class,"secondHookPixel");
@@ -143,7 +145,7 @@ public class HardwareMapp {
         };
     }
 
-    public Action openOutake(String stare){
+    public Action openOutake(String stare){ //deschis/inchis cutie outake
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -153,6 +155,23 @@ public class HardwareMapp {
                         break;
                     case "close":
                         outakeServo.setPosition(0);
+                        break;
+                }
+                return false;
+            }
+        };
+    }
+
+    public Action turnOutake(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "noTurn":
+                        OutakeTurnServo.setPosition(0);
+                        break;
+                    case "turn":
+                        OutakeTurnServo.setPosition(0.5);
                         break;
                 }
                 return false;
