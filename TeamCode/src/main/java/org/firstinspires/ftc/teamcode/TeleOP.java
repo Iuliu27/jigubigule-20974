@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.HardwareMap.HardwareMapp;
@@ -28,7 +29,12 @@ public class TeleOP extends LinearOpMode {
     private boolean isYPressed=false;
     private boolean isAPressed=false;
     private boolean isBPressed=false;
-    private int isBumperPressed=0;
+    private boolean isAPressedforOpenOuttake=false;
+    private int isBumperPressed=7;
+    public DcMotorEx misumMotorLeft;  //motor pentru misum-ul stang
+    public DcMotorEx misumMotorRight;  //motor pentru misum-ul drept
+    HardwareMap HW=null;
+    public static double LiftGROUND = 0;
 
     //HardwareMapping hw=new HardwareMapping();
     private MecanumDrive drive;
@@ -45,13 +51,13 @@ public class TeleOP extends LinearOpMode {
      *   DPAD down     - Lift 1st level                  //Gata
      *   DPAD right    - Lift 2nd level                  //Gata
      *   DPAD up       - Lift 3rd level                  //Gata
-     *   LEFT/RIGHT BUMPER - Change intake angle
+     *   LEFT/RIGHT BUMPER - Change intake angle         //Gata
      *
      *   DRIVER 2
      *   X         - Power on/off INTAKE                 //Gata
      *   Y         - Engage hooks on/off                 //Gata
      *   B         - Reverse intake                      //Gata
-     *   A         - Rotate outtake 90 degrees           //Gata
+     *   A         - Open outtake                        //Gata
      *   Left stick Y - manual slide control
      *   Left stick X - manual outtake pitch (keep 60 degree angle (in progress))
      *   Right stick press down - Launch plane           //Gata
@@ -59,7 +65,7 @@ public class TeleOP extends LinearOpMode {
      *   DPAD down     - Lift 1st level                  //Gata
      *   DPAD right    - Lift 2nd level                  //Gata
      *   DPAD up       - Lift 3rd level                  //Gata
-     *   LEFT/RIGHT BUMPER - Change intake angle
+     *   LEFT/RIGHT BUMPER - Change intake angle         //Gata
      *   BACK          - Change movement mode
      *   START         - Change HEADING_LOCK target 0/180
      *
@@ -89,6 +95,8 @@ public class TeleOP extends LinearOpMode {
         double TriggerSlowdown=gamepad2.right_trigger,heading=180;
         Robot.init(hardwareMap);
         Robot.gamepadInit(gamepad1, gamepad2);
+        misumMotorLeft=HW.get(DcMotorEx.class,"misumMotorLeft");
+        misumMotorRight=HW.get(DcMotorEx.class,"misumMotorRight");
 
         waitForStart();
 
@@ -98,7 +106,7 @@ public class TeleOP extends LinearOpMode {
             TelemetryPacket packet = new TelemetryPacket();
 
             if(TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-                drive.setDrivePowers(new PoseVelocity2d(   //miscarea de baza a robotului
+                drive.setDrivePowers(new PoseVelocity2d(   //miscarea de baza a r obotului
                         new Vector2d(
                                 -gamepad2.left_stick_y,
                                 -gamepad2.left_stick_x
@@ -110,7 +118,7 @@ public class TeleOP extends LinearOpMode {
             //gamepad1 && gamepad2
 
             if (Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.X) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.X)) {
-                if (!isXPressed) {
+                if (!isXPressed) {                                 //Directia intake-ului in functie de cati pixeli exista
                     isXPressed = true;
                     runningActions.add(new SequentialAction(
                             Robot.Intake("lessThan2Pixels")
@@ -123,7 +131,7 @@ public class TeleOP extends LinearOpMode {
                 }
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.Y) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.Y)){
-                if(!isYPressed){
+                if(!isYPressed){                                   //Deschis inchis hookul pentru pixeli
                     isYPressed=true;
                     runningActions.add(new SequentialAction(
                             Robot.hook1("pixel"),
@@ -137,34 +145,43 @@ public class TeleOP extends LinearOpMode {
                     ));
                 }
             }
-            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.B)){
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.B)){   //Pentru hang
                 runningActions.add(Robot.hang("up"));
             }
-            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.A) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.A)){
-                if(!isAPressed){
+            if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.A) && misumMotorLeft.equals(LiftGROUND) && misumMotorRight.equals(LiftGROUND)){
+                if(!isAPressed){                                           //Turn outake la 90 de grade
                     isAPressed=true;
-                    runningActions.add(Robot.openOutake("turn"));
+                    runningActions.add(Robot.turnOutake("turn"));
                 } else {
                     isAPressed=false;
-                    runningActions.add(Robot.openOutake("noTurn"));
+                    runningActions.add(Robot.turnOutake("noTurn"));
+                }
+            }
+            if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.A)){   //Open/Close outake
+                if(!isAPressedforOpenOuttake){
+                    isAPressedforOpenOuttake=true;
+                    runningActions.add(Robot.openOutake("open"));
+                } else {
+                    isAPressedforOpenOuttake=false;
+                    runningActions.add(Robot.openOutake("close"));
                 }
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)){
-                runningActions.add(Robot.launchPlane());
+                runningActions.add(Robot.launchPlane());           //Launch plane
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_LEFT) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
-                runningActions.add(Robot.misum("GROUND"));
+                runningActions.add(Robot.misum("GROUND"));    //Misum ground
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_DOWN) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
-                runningActions.add(Robot.misum("LOW"));
+                runningActions.add(Robot.misum("LOW"));       //Misum low
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                runningActions.add(Robot.misum("MIDDLE"));
+                runningActions.add(Robot.misum("MIDDLE"));    //Misum middle
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_UP) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
-                runningActions.add(Robot.misum("HIGH"));
+                runningActions.add(Robot.misum("HIGH"));      //Misum high
             }
-            if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.B)){
+            if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.B)){     //Maturice directie in/out
                 if(!isBPressed){
                     isBPressed=true;
                     runningActions.add(Robot.maturiceOpen_Close("in"));
@@ -174,8 +191,9 @@ public class TeleOP extends LinearOpMode {
                 }
             }
             if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)){
-                isBumperPressed++;
+                isBumperPressed--;                                          //Level maturice(1/2/3/4/5/6)
                 if(isBumperPressed==1){
+                    isBumperPressed=7;
                     runningActions.add(Robot.maturiceLevel("Level1"));
                 }
                 if(isBumperPressed==2){
@@ -191,7 +209,6 @@ public class TeleOP extends LinearOpMode {
                     runningActions.add(Robot.maturiceLevel("Level5"));
                 }
                 if(isBumperPressed==6){
-                    isBumperPressed=0;
                     runningActions.add(Robot.maturiceLevel("Level6"));
                 }
             }
