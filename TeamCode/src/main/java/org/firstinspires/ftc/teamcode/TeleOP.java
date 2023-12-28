@@ -106,7 +106,7 @@ public class TeleOP extends LinearOpMode {
             TelemetryPacket packet = new TelemetryPacket();
 
             if(TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-                drive.setDrivePowers(new PoseVelocity2d(   //miscarea de baza a r obotului
+                drive.setDrivePowers(new PoseVelocity2d(   //miscarea de baza a robotului
                         new Vector2d(
                                 -gamepad2.left_stick_y,
                                 -gamepad2.left_stick_x
@@ -131,7 +131,7 @@ public class TeleOP extends LinearOpMode {
                 }
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.Y) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.Y)){
-                if(!isYPressed){                                   //Deschis inchis hookul pentru pixeli
+                if(!isYPressed){                                   //Deschis/inchis hookul pentru pixeli
                     isYPressed=true;
                     runningActions.add(new SequentialAction(
                             Robot.hook1("pixel"),
