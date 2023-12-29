@@ -121,12 +121,12 @@ public class TeleOP extends LinearOpMode {
                 if (!isXPressed) {                                 //Directia intake-ului in functie de cati pixeli exista
                     isXPressed = true;
                     runningActions.add(new SequentialAction(
-                            Robot.Intake("lessThan2Pixels")
+                            Robot.Intake("in")
                     ));
                 } else {
                     isXPressed = false;
                     runningActions.add(new SequentialAction(
-                            Robot.Intake("moreThan2Pixels")
+                            Robot.Intake("out ")
                     ));
                 }
             }
@@ -134,14 +134,14 @@ public class TeleOP extends LinearOpMode {
                 if(!isYPressed){                                   //Deschis/inchis hookul pentru pixeli
                     isYPressed=true;
                     runningActions.add(new SequentialAction(
-                            Robot.hook1("pixel"),
-                            Robot.hook2("pixel")
+                            Robot.hook1("close"),
+                            Robot.hook2("close")
                     ));
                 } else {
                     isYPressed=false;
                     runningActions.add(new SequentialAction(
-                            Robot.hook1("noPixel"),
-                            Robot.hook2("noPixel")
+                            Robot.hook1("open"),
+                            Robot.hook2("open")
                     ));
                 }
             }

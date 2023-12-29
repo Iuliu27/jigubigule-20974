@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -114,11 +115,14 @@ public class HardwareMapp {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
-                    case "lessThan2Pixels":
+                    case "in":
                         intakeCRServo.setPower(1);
                         break;
-                    case "moreThan2Pixels":
+                    case "out":
                         intakeCRServo.setPower(-1);
+                        break;
+                    case "off":
+                        intakeCRServo.setPower(0);
                         break;
                 }
                 return false;
@@ -137,7 +141,7 @@ public class HardwareMapp {
                         hangMotor.setPower(0);
                         break;
                     case "hang":
-                        hangMotor.setPower(0);
+                        hangMotor.setPower(0.2);
                         break;
                 }
                 return false;
@@ -189,6 +193,9 @@ public class HardwareMapp {
                         break;
                     case "out":
                         intakeMotor.setPower(-1);
+                        break;
+                    case "off":
+                        intakeMotor.setPower(0);
                         break;
                 }
                 return false;
@@ -331,19 +338,21 @@ public class HardwareMapp {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                misumMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                misumMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 switch (stare){
                     case "GROUND":
-                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftGROUND*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftGROUND*TICKS_PER_CM_Z);
+                        misumMotorLeft.setTargetPosition((int) (Variables.LiftGROUND*TICKS_PER_CM_Z));
+                        misumMotorRight.setTargetPosition((int) (Variables.LiftGROUND*TICKS_PER_CM_Z));
                     case "LOW":
-                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftLOW*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftLOW*TICKS_PER_CM_Z);
+                        misumMotorLeft.setTargetPosition((int) (Variables.LiftLOW*TICKS_PER_CM_Z));
+                        misumMotorRight.setTargetPosition((int) (Variables.LiftLOW*TICKS_PER_CM_Z));
                     case "MIDDLE":
-                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftMIDDLE*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftMIDDLE*TICKS_PER_CM_Z);
+                        misumMotorLeft.setTargetPosition((int) (Variables.LiftMIDDLE*TICKS_PER_CM_Z));
+                        misumMotorRight.setTargetPosition((int) (Variables.LiftMIDDLE*TICKS_PER_CM_Z));
                     case "HIGH":
-                        misumMotorLeft.setPositionPIDFCoefficients(Variables.LiftHIGH*TICKS_PER_CM_Z);
-                        misumMotorRight.setPositionPIDFCoefficients(Variables.LiftHIGH*TICKS_PER_CM_Z);
+                        misumMotorLeft.setTargetPosition((int) (Variables.LiftHIGH*TICKS_PER_CM_Z));
+                        misumMotorRight.setTargetPosition((int) (Variables.LiftHIGH*TICKS_PER_CM_Z));
                 }
                 misumMotorLeft.setPower(1);
                 misumMotorRight.setPower(1);
@@ -357,9 +366,9 @@ public class HardwareMapp {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
-                    case "pixel":
+                    case "close":
                         servoHook1.setPosition(0.6);
-                    case "noPixel":
+                    case "open":
                         servoHook1.setPosition(0);
                 }
                 return false;
@@ -372,9 +381,9 @@ public class HardwareMapp {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
-                    case "pixel":
+                    case "close":
                         servoHook2.setPosition(0.6);
-                    case "noPixel":
+                    case "open":
                         servoHook2.setPosition(0);
                 }
                 return false;

@@ -2,12 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.HardwareMap.HardwareMapp;
 import org.firstinspires.ftc.teamcode.tuning.mapping.MecanumDrive;
@@ -21,7 +17,7 @@ public class ActionForAutonomous{
     Pose2d backboardPose=new Pose2d(48,-34,0);
     Pose2d stackPose=new Pose2d(-55,-11,0);
 
-    Action Autonomie1= drive.actionBuilder(firstPose) //Autonomie1
+    Action Autonomie1= drive.actionBuilder(firstPose, Math.toRadians(60)) //Autonomie1
 
             .setReversed(false)
             .splineToLinearHeading(new Pose2d(-29, -33, Math.toRadians(60)), Math.toRadians(60))
@@ -57,7 +53,7 @@ public class ActionForAutonomous{
             .splineToSplineHeading(new Pose2d(48,-15,Math.toRadians(0)),Math.toRadians(90))
             .build();
 
-    Action Autonomie2= drive.actionBuilder(firstPose) //Autonomie2
+    Action Autonomie2= drive.actionBuilder(firstPose, Math.toRadians(60)) //Autonomie2
 
             .setReversed(false)
             .splineToLinearHeading(new Pose2d(-29, -33, Math.toRadians(60)), Math.toRadians(60))

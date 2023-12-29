@@ -7,7 +7,7 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepStorage {
-    MeepMeep meepMeep = new MeepMeep(700);
+    MeepMeep meepMeep = new MeepMeep(600);
     RoadRunnerBotEntity AutoRedStanga3Up = new DefaultBotBuilder(meepMeep)   //Gata
             // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
             .setConstraints(45, 50, Math.toRadians(180), Math.toRadians(180), 15.1)
@@ -18,7 +18,7 @@ public class MeepMeepStorage {
                             .splineToLinearHeading(new Pose2d(-29, -33, Math.toRadians(60)), Math.toRadians(60))
                             .waitSeconds(0.2)
                             .setReversed(true)
-                            .splineToLinearHeading(new Pose2d(-53,-36,Math.toRadians(0)),Math.toRadians(90))
+                            .splineToLinearHeading(new Pose2d(-56.45,-36,Math.toRadians(0)),Math.toRadians(90))
                             .waitSeconds(0.7) //ia un pixel
                             //1
                             .setTangent(Math.toRadians(90))
