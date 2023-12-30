@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomii;
+/*package org.firstinspires.ftc.teamcode.Autonomii;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -31,7 +31,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=firstPose;
 
-        Action TrajRightLane = drive.actionBuilder(cPose, Math.toRadians(90))  //Traiectorie pana la linea din dreapta
+        Action TrajRightLane = drive.actionBuilder(cPose, Math.toRadians(90))  //Traiectorie pana la linia din dreapta
                 .setReversed(false)
                 .splineToLinearHeading(new Pose2d(-29, -33, Math.toRadians(60)), Math.toRadians(60))
                 .build();
@@ -211,4 +211,4 @@ public class AutoRedStanga3Down extends LinearOpMode {
             telemetry.addData("Current Pose :",cPose);
         }
     }
-}
+}*/

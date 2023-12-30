@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -133,13 +134,13 @@ public class TeleOP extends LinearOpMode {
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.Y) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.Y)){
                 if(!isYPressed){                                   //Deschis/inchis hookul pentru pixeli
                     isYPressed=true;
-                    runningActions.add(new SequentialAction(
+                    runningActions.add(new ParallelAction(
                             Robot.hook1("close"),
                             Robot.hook2("close")
                     ));
                 } else {
                     isYPressed=false;
-                    runningActions.add(new SequentialAction(
+                    runningActions.add(new ParallelAction(
                             Robot.hook1("open"),
                             Robot.hook2("open")
                     ));
