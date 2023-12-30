@@ -23,6 +23,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+
         Robot.init(hardwareMap);
         //Robot.gamepadInit(gamepad1, gamepad2);
 
@@ -46,8 +47,8 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(-56.45,-36,Math.toRadians(0)),Math.toRadians(90))
                     .afterDisp(1, new SequentialAction(  //1 inch = 2,54 cm
-                            Robot.hook1("open"),
                             new ParallelAction(
+                                    Robot.hook1("open"),
                                     Robot.Intake("in"),
                                     Robot.maturiceOpen_Close("open"),
                                     Robot.maturiceLevel("Level5")
@@ -262,13 +263,14 @@ public class AutoRedStanga3Up extends LinearOpMode {
                                     Robot.hook1("open"),
                                     Robot.hook2("open")
                             ),
-                            new SleepAction(0.2),
+                            //new SleepAction(0.2),
                             Robot.openOutake("close"),
                             new SleepAction(0.1),
                             Robot.turnOutake("noTurn"),
                             new ParallelAction(
                                     Robot.maturiceOpen_Close("off"),
-                                    Robot.Intake("off")
+                                    Robot.Intake("off"),
+                                    Robot.maturiceLevel("Level1")
                             ),
                             Robot.misum("GROUND")
                     ))
@@ -282,11 +284,12 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     new SleepAction(0.1),
 
                     TrajLeftStack,
+                    new SleepAction(0.7),
+                    Robot.hook1("close"),  //Pixelul de jos (in cel de sus este deja un pixel)
                     new ParallelAction(
                             Robot.maturiceOpen_Close("off"),
-                            Robot.Intake("off")
+                            Robot.Intake("off")   //Daca ia prea mult timp bag urmatoarea traiectorie in ParallelAction
                     ),
-                    Robot.hook1("close"),  //Pixelul de jos (in cel de sus este deja un pixel)
 
                     TrajToBackboardRight,
                     Robot.openOutake("open"),
