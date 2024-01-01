@@ -31,14 +31,14 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=firstPose;
 
-        Action TrajRightLane = drive.actionBuilder(cPose, Math.toRadians(90))  //Traiectorie pana la linia din dreapta
+        Action TrajRightLane = drive.actionBuilder(cPose)  //Traiectorie pana la linia din dreapta
                 .setReversed(false)
                 .splineToLinearHeading(new Pose2d(-29, -33, Math.toRadians(60)), Math.toRadians(60))
                 .build();
 
         cPose=RightLane;
 
-        Action TrajLeftStack = drive.actionBuilder(cPose, Math.toRadians(90))  //Traiectorie pana la stackul din stanga
+        Action TrajLeftStack = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-53, -36, Math.toRadians(0)), Math.toRadians(90))
                 .afterDisp(1, new SequentialAction(
@@ -51,7 +51,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=LeftStack;
 
-        Action TrajBackboardRight = drive.actionBuilder(cPose, Math.toRadians(0))  //Traiectorie pana la backboard in partea dreapta
+        Action TrajBackboardRight = drive.actionBuilder(cPose)  //Traiectorie pana la backboard in partea dreapta
                 .setTangent(Math.toRadians(90))
                 .setReversed(false)
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(0))
@@ -73,7 +73,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action TrajToLeftStackLevel6 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din stanga
+        Action TrajToLeftStackLevel6 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27,-59,Math.toRadians(0)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(180))
@@ -90,7 +90,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action TrajToLeftStackLevel5 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din stanga
+        Action TrajToLeftStackLevel5 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27,-59,Math.toRadians(0)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(180))
@@ -107,7 +107,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action TrajToLeftStackLevel4 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din stanga
+        Action TrajToLeftStackLevel4 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27,-59,Math.toRadians(0)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(180))
@@ -124,7 +124,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action TrajToLeftStackLevel3 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din stanga
+        Action TrajToLeftStackLevel3 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27,-59,Math.toRadians(0)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(180))
@@ -141,7 +141,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action TrajToLeftStackLevel2 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din stanga
+        Action TrajToLeftStackLevel2 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27,-59,Math.toRadians(0)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(180))
@@ -158,7 +158,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action TrajToLeftStackLevel1 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din stanga
+        Action TrajToLeftStackLevel1 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din stanga
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27,-59,Math.toRadians(0)),Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-33,-59,Math.toRadians(0)),Math.toRadians(180))
@@ -175,7 +175,7 @@ public class AutoRedStanga3Down extends LinearOpMode {
 
         cPose=BackboardRight;
 
-        Action ParkingRight = drive.actionBuilder(cPose, Math.toRadians(270))
+        Action ParkingRight = drive.actionBuilder(cPose)
                 .setReversed(true)
                 .setTangent(Math.toRadians(-90))
                 .splineToSplineHeading(new Pose2d(48,-56,Math.toRadians(0)),Math.toRadians(270))

@@ -36,14 +36,14 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=firstPose;
 
-            Action TrajRightLane = drive.actionBuilder(cPose, Math.toRadians(0))  //Traiectorie pana la linia din dreapta
+            Action TrajRightLane = drive.actionBuilder(cPose)  //Traiectorie pana la linia din dreapta
                     .setReversed(false)
                     .splineToLinearHeading(new Pose2d(-29, -33, Math.toRadians(60)), Math.toRadians(60))
                     .build();
 
             cPose=RightLane;
 
-            Action TrajLeftStack = drive.actionBuilder(cPose,Math.toRadians(90))  //Traiectorie pana la Stackul din stanga
+            Action TrajLeftStack = drive.actionBuilder(cPose)  //Traiectorie pana la Stackul din stanga
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(-56.45,-36,Math.toRadians(0)),Math.toRadians(90))
                     .afterDisp(1, new SequentialAction(  //1 inch = 2,54 cm
@@ -58,7 +58,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
         cPose=LeftStack;
 
-        Action TrajToBackboardRight = drive.actionBuilder(cPose, Math.toRadians(0))  //Traiectorie pana la backboard dreapta
+        Action TrajToBackboardRight = drive.actionBuilder(cPose)  //Traiectorie pana la backboard dreapta
                 .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(-38.39, -12.02, Math.toRadians(0)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(0))
@@ -73,7 +73,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
                 ))*/
                 .afterDisp(1,new SequentialAction(  //1 inch = 2,54 cm, (3 1/2), 1=23 inch
                         Robot.misum("MIDDLE"),
-                        new SleepAction(0.2),
+                        new SleepAction(0.1),
                         Robot.turnOutake("turn")
                 ))
                 .build();
@@ -81,7 +81,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
             cPose=BackboardRight;
 
             //Level 1 2 3 4 5 6
-            Action TrajRightStackLevel6 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din dreapta nivel 6 (teoretic nu ia pixel)
+            Action TrajRightStackLevel6 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din dreapta nivel 6 (teoretic nu ia pixel)
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(180))
                     .splineToLinearHeading(new Pose2d(-56.45, -12.02, Math.toRadians(0)), Math.toRadians(180))
@@ -105,7 +105,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=BackboardRight;
 
-            Action TrajRightStackLevel5 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din dreapta nivel 5
+            Action TrajRightStackLevel5 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din dreapta nivel 5
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(180))
                 .splineToLinearHeading(new Pose2d(-56.45, -12.02, Math.toRadians(0)), Math.toRadians(180))
@@ -129,7 +129,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=BackboardRight;
 
-            Action TrajRightStackLevel4 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din dreapta nivel 4
+            Action TrajRightStackLevel4 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din dreapta nivel 4
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(180))
                     .splineToLinearHeading(new Pose2d(-56.45, -12.02, Math.toRadians(0)), Math.toRadians(180))
@@ -153,7 +153,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=BackboardRight;
 
-            Action TrajRightStackLevel3 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din dreapta nivel 3
+            Action TrajRightStackLevel3 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din dreapta nivel 3
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(180))
                     .splineToLinearHeading(new Pose2d(-56.45, -12.02, Math.toRadians(0)), Math.toRadians(180))
@@ -177,7 +177,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=BackboardRight;
 
-            Action TrajRightStackLevel2 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din dreapta nivel 2
+            Action TrajRightStackLevel2 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din dreapta nivel 2
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(180))
                     .splineToLinearHeading(new Pose2d(-56.45, -12.02, Math.toRadians(0)), Math.toRadians(180))
@@ -201,7 +201,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=BackboardRight;
 
-            Action TrajRightStackLevel1 = drive.actionBuilder(cPose, Math.toRadians(180))  //Traiectorie pana la stackul din dreapta nivel 1
+            Action TrajRightStackLevel1 = drive.actionBuilder(cPose)  //Traiectorie pana la stackul din dreapta nivel 1
                     .setReversed(true)
                     .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(180))
                     .splineToLinearHeading(new Pose2d(-56.45, -12.02, Math.toRadians(0)), Math.toRadians(180))
@@ -225,7 +225,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=RightStack;
 
-            Action TrajToBackboardLeft = drive.actionBuilder(cPose, Math.toRadians(0))  //Traiectorie pana la backboard stanga
+            Action TrajToBackboardLeft = drive.actionBuilder(cPose)  //Traiectorie pana la backboard stanga
                     .setReversed(false)
                     .splineToLinearHeading(new Pose2d(27, -12.02, Math.toRadians(0)), Math.toRadians(0))
                     .splineToLinearHeading(new Pose2d(48, -29.65, Math.toRadians(0)), Math.toRadians(0))
@@ -243,7 +243,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     ))*/
                     .afterDisp(1,new SequentialAction(
                             Robot.misum("MIDDLE"),
-                            new SleepAction(0.2),
+                            new SleepAction(0.1),
                             Robot.turnOutake("turn")
                             /*Robot.openOutake("open"),
                             Robot.openOutake("close"),
@@ -254,7 +254,7 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
             cPose=BackboardLeft;
 
-            Action ParkingLeft = drive.actionBuilder(cPose, Math.toRadians(90))  //Traiectorie parcare stanga
+            Action ParkingLeft = drive.actionBuilder(cPose)  //Traiectorie parcare stanga
                     .setReversed(true)
                     .setTangent(Math.toRadians(90))
                     .splineToSplineHeading(new Pose2d(48, -15, Math.toRadians(0)), Math.toRadians(90))
@@ -299,11 +299,11 @@ public class AutoRedStanga3Up extends LinearOpMode {
                             Robot.hook2("open")      //Las pixelii sa cada
                     ),
                     new SleepAction(0.1),
-                    new ParallelAction(
+                    /*new ParallelAction(
                             Robot.hook1("close"),
                             Robot.hook2("close")
-                    ),
-                    new SleepAction(0.2),
+                    ),*/                                 //Las deschis pentru urmatorii pixeli
+                    new SleepAction(0.1),
                     Robot.openOutake("close"),
                     new SleepAction(0.1),
                     Robot.turnOutake("noTurn"),
@@ -311,35 +311,41 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     Robot.misum("GROUND"),
 
                     TrajRightStackLevel4,
+                    new SleepAction(0.7),
+                    new ParallelAction(
+                            Robot.hook1("close"),
+                            Robot.hook2("close")
+                    ),
                     new ParallelAction(
                             Robot.maturiceOpen_Close("off"),
                             Robot.Intake("off")
                     ),
-                    new ParallelAction(
-                            Robot.hook1("close"),
-                            Robot.hook2("close")
-                    ),
 
                     TrajToBackboardLeft,
                     Robot.openOutake("open"),
-                    new SleepAction(0.2),
+                    new SleepAction(0.1),
                     new ParallelAction(
                             Robot.hook1("open"),
                             Robot.hook2("open")      //Las pixelii sa cada
                     ),
-                    new SleepAction(0.2),
-                    new ParallelAction(
+                    new SleepAction(0.1),
+                    /*new ParallelAction(
                             Robot.hook1("close"),
                             Robot.hook2("close")
-                    ),
-                    new SleepAction(0.3),
+                    ),*/                                  //Las deschis pentru urmatorii pixeli
+                    new SleepAction(0.1),
                     Robot.openOutake("close"),
-                    new SleepAction(0.2),
+                    new SleepAction(0.1),
                     Robot.turnOutake("noTurn"),
-                    new SleepAction(0.3),
+                    new SleepAction(0.1),
                     Robot.misum("GROUND"),
 
                     TrajRightStackLevel2,
+                    new SleepAction(0.7),
+                    new ParallelAction(
+                            Robot.hook1("close"),
+                            Robot.hook2("close")
+                    ),
                     new ParallelAction(
                             Robot.maturiceOpen_Close("off"),
                             Robot.Intake("off")
@@ -347,21 +353,21 @@ public class AutoRedStanga3Up extends LinearOpMode {
 
                     TrajToBackboardLeft,
                     Robot.openOutake("open"),
-                    new SleepAction(0.2),
+                    new SleepAction(0.1),
                     new ParallelAction(
                             Robot.hook1("open"),
                             Robot.hook2("open")      //Las pixelii sa cada
                     ),
-                    new SleepAction(0.2),
-                    new ParallelAction(
+                    new SleepAction(0.1),
+                    /*new ParallelAction(
                             Robot.hook1("close"),
                             Robot.hook2("close")
-                    ),
-                    new SleepAction(0.3),
+                    ),*/
+                    new SleepAction(0.1),
                     Robot.openOutake("close"),
-                    new SleepAction(0.2),
+                    new SleepAction(0.1),
                     Robot.turnOutake("noTurn"),
-                    new SleepAction(0.3),
+                    new SleepAction(0.1),
                     Robot.misum("GROUND"),
 
                     ParkingLeft

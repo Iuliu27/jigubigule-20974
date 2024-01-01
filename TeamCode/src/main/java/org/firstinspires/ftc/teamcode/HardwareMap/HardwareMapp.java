@@ -26,6 +26,7 @@ public class HardwareMapp {
      * Prindere pixeli(hook)-gata(nush exact daca trebuie sa verific in ColorDetected)
      * Sa fac sa lumineze LED-urile-gata(mai trebuie blinking pentru alb)
      * Implementare senzori de culoare
+     * Servouri pentru hang, 2?
      * In rest Doamne ajuta*/
 
     double PI = 3.1415;
@@ -58,7 +59,7 @@ public class HardwareMapp {
     public Servo servoHook2;
     public Servo intakeServoLeft;
     public Servo intakeServoRight;
-    public Servo OutakeTurnServo;                   //servouri
+    public Servo OutakeTurnServo;                   //servouri, de hang???
 
     public SensorColor SensorfirstHook;  //senzor pentru primul pixel
     public SensorColor SensorsecondHook;  //senzor pentru al doilea pixel
