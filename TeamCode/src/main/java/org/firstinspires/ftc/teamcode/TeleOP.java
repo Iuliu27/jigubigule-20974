@@ -152,35 +152,35 @@ public class TeleOP extends LinearOpMode {
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.A) && misumMotorLeft.equals(LiftGROUND) && misumMotorRight.equals(LiftGROUND)){
                 if(!isAPressed){                                           //Turn outake la 90 de grade
                     isAPressed=true;
-                    runningActions.add(Robot.turnOutake("turn"));
+                    runningActions.add(Robot.turnOuttake("turn"));
                 } else {
                     isAPressed=false;
-                    runningActions.add(Robot.turnOutake("noTurn"));
+                    runningActions.add(Robot.turnOuttake("noTurn"));
                 }
             }
             if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.A)){   //Open/Close outake
                 if(!isAPressedforOpenOuttake){
                     isAPressedforOpenOuttake=true;
-                    runningActions.add(Robot.openOutake("open"));
+                    runningActions.add(Robot.openOuttake("open"));
                 } else {
                     isAPressedforOpenOuttake=false;
-                    runningActions.add(Robot.openOutake("close"));
+                    runningActions.add(Robot.openOuttake("close"));
                 }
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)){
                 runningActions.add(Robot.launchPlane());           //Launch plane
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_LEFT) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)){
-                runningActions.add(Robot.misum("GROUND"));    //Misum ground
+                runningActions.add(Robot.misumHeight("GROUND"));    //Misum ground
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_DOWN) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
-                runningActions.add(Robot.misum("LOW"));       //Misum low
+                runningActions.add(Robot.misumHeight("LOW"));       //Misum low
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                runningActions.add(Robot.misum("MIDDLE"));    //Misum middle
+                runningActions.add(Robot.misumHeight("MIDDLE"));    //Misum middle
             }
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.DPAD_UP) || Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
-                runningActions.add(Robot.misum("HIGH"));      //Misum high
+                runningActions.add(Robot.misumHeight("HIGH"));      //Misum high
             }
             if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.B)){     //Maturice directie in/out
                 if(!isBPressed){

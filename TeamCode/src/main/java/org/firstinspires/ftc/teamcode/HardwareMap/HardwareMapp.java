@@ -26,7 +26,6 @@ public class HardwareMapp {
      * Prindere pixeli(hook)-gata(nush exact daca trebuie sa verific in ColorDetected)
      * Sa fac sa lumineze LED-urile-gata(mai trebuie blinking pentru alb)
      * Implementare senzori de culoare
-     * Servouri pentru hang, 2?
      * In rest Doamne ajuta*/
 
     double PI = 3.1415;
@@ -53,13 +52,13 @@ public class HardwareMapp {
     public DcMotorEx intakeMotor;  //motor pentru maturice           //motoare
 
     public CRServo intakeCRServo;  //servo CR pentru intake
-    public Servo outakeServo;  //servo pentru deschis outake-ul
+    public Servo outtakeDoorServo;  //servo pentru deschis outake-ul
     public Servo planeServo; //servo pentru avion
     public Servo servoHook1;
     public Servo servoHook2;
     public Servo intakeServoLeft;
     public Servo intakeServoRight;
-    public Servo OutakeTurnServo;                   //servouri, de hang???
+    public Servo OuttakeTurnServo;                   //servo-uri pentru intors tot outtaku-ul de 2 ori
 
     public SensorColor SensorfirstHook;  //senzor pentru primul pixel
     public SensorColor SensorsecondHook;  //senzor pentru al doilea pixel
@@ -83,13 +82,13 @@ public class HardwareMapp {
         intakeMotor=HW.get(DcMotorEx.class,"intakeMotor");
 
         intakeCRServo=HW.get(CRServo.class,"intakeServo");
-        outakeServo=HW.get(Servo.class,"outakeServo");
+        outtakeDoorServo=HW.get(Servo.class,"outtakeDoorServo");
         planeServo=HW.get(Servo.class,"planeServo");
         servoHook1=HW.get(Servo.class,"hook1");
         servoHook2=HW.get(Servo.class,"hook2");
         intakeServoLeft=HW.get(Servo.class,"intakeServoLeft");
         intakeServoRight=HW.get(Servo.class,"intakeServoRight");
-        OutakeTurnServo=HW.get(Servo.class,"OutakeTurnServo");
+        OuttakeTurnServo=HW.get(Servo.class,"OuttakeTurnServo");
 
         SensorfirstHook=HW.get(SensorColor.class,"firstHookPixel");
         SensorsecondHook=HW.get(SensorColor.class,"secondHookPixel");
@@ -150,16 +149,16 @@ public class HardwareMapp {
         };
     }
 
-    public Action openOutake(String stare){ //deschis/inchis cutie outake
+    public Action openOuttake(String stare){ //deschis/inchis cutie outake
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
                     case "open":
-                        outakeServo.setPosition(0.6);
+                        outtakeDoorServo.setPosition(0.6);
                         break;
                     case "close":
-                        outakeServo.setPosition(0);
+                        outtakeDoorServo.setPosition(0);
                         break;
                 }
                 return false;
@@ -167,16 +166,16 @@ public class HardwareMapp {
         };
     }
 
-    public Action turnOutake(String stare){
+    public Action turnOuttake(String stare){
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
                     case "noTurn":
-                        OutakeTurnServo.setPosition(0);
+                        OuttakeTurnServo.setPosition(0);
                         break;
                     case "turn":
-                        OutakeTurnServo.setPosition(0.5);
+                        OuttakeTurnServo.setPosition(0.5);
                         break;
                 }
                 return false;
@@ -335,7 +334,7 @@ public class HardwareMapp {
         };
     }
 
-    public Action misum(String stare){
+    public Action misumHeight(String stare){
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
