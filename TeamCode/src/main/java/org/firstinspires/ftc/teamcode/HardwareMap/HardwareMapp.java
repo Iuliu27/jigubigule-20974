@@ -58,7 +58,12 @@ public class HardwareMapp {
     public Servo servoHook2;
     public Servo intakeServoLeft;
     public Servo intakeServoRight;
-    public Servo OuttakeTurnServo;                   //servo-uri pentru intors tot outtaku-ul de 2 ori
+    public Servo OuttakeTurn90Servo;
+
+    public Servo backboardAlignServoLeft;
+    public Servo backboardAlignServoRight;  //servo-uri pentru pus outtaku-ul la 60 de grade(backboard)
+    public Servo turnOuttakeLeft;
+    public Servo turnOuttakeRight;
 
     public SensorColor SensorfirstHook;  //senzor pentru primul pixel
     public SensorColor SensorsecondHook;  //senzor pentru al doilea pixel
@@ -88,7 +93,11 @@ public class HardwareMapp {
         servoHook2=HW.get(Servo.class,"hook2");
         intakeServoLeft=HW.get(Servo.class,"intakeServoLeft");
         intakeServoRight=HW.get(Servo.class,"intakeServoRight");
-        OuttakeTurnServo=HW.get(Servo.class,"OuttakeTurnServo");
+        OuttakeTurn90Servo=HW.get(Servo.class,"OuttakeTurn90Servo");
+        backboardAlignServoLeft=HW.get(Servo.class,"backboardAlignServoLeft");
+        backboardAlignServoRight=HW.get(Servo.class,"backboardAlignServoRight");
+        turnOuttakeLeft=HW.get(Servo.class,"turnOuttakeLeft");
+        turnOuttakeRight=HW.get(Servo.class,"turnOuttakeRight");
 
         SensorfirstHook=HW.get(SensorColor.class,"firstHookPixel");
         SensorsecondHook=HW.get(SensorColor.class,"secondHookPixel");
@@ -129,7 +138,38 @@ public class HardwareMapp {
             }
         };
     }
-
+    public Action backboardAlign(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "ground":
+                        backboardAlignServoLeft.setPosition(0);
+                        backboardAlignServoRight.setPosition(0);
+                    case "backboard":
+                        backboardAlignServoLeft.setPosition(0.6);
+                        backboardAlignServoRight.setPosition(0.6);
+                }
+                return false;
+            }
+        };
+    }
+    public Action turnOuttakeUp_Down(String stare){
+        return new Action() {
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                switch (stare){
+                    case "up":
+                        turnOuttakeLeft.setPosition(0.6);
+                        turnOuttakeRight.setPosition(0.6);
+                    case "down":
+                        turnOuttakeLeft.setPosition(0);
+                        turnOuttakeRight.setPosition(0);
+                }
+                return false;
+            }
+        };
+    }
     public Action hang(String stare){     //actiune pentru hang
         return new Action() {
             @Override
@@ -166,16 +206,16 @@ public class HardwareMapp {
         };
     }
 
-    public Action turnOuttake(String stare){
+    public Action turn90Outtake(String stare){
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 switch (stare){
                     case "noTurn":
-                        OuttakeTurnServo.setPosition(0);
+                        OuttakeTurn90Servo.setPosition(0);
                         break;
                     case "turn":
-                        OuttakeTurnServo.setPosition(0.5);
+                        OuttakeTurn90Servo.setPosition(0.5);
                         break;
                 }
                 return false;

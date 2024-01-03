@@ -74,7 +74,11 @@ public class AutoRedStanga3Up extends LinearOpMode {
                 .afterDisp(1,new SequentialAction(  //1 inch = 2,54 cm, (3 1/2), 1=23 inch
                         Robot.misumHeight("MIDDLE"),
                         //new SleepAction(0.1),
-                        Robot.turnOuttake("turn")
+                        new ParallelAction(
+                                Robot.turnOuttakeUp_Down("up"),
+                                Robot.backboardAlign("backboard")
+                        ),
+                        Robot.turn90Outtake("turn")
                 ))
                 .build();
 
@@ -244,7 +248,11 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     .afterDisp(1,new SequentialAction(
                             Robot.misumHeight("MIDDLE"),
                             //new SleepAction(0.1),
-                            Robot.turnOuttake("turn")
+                            new ParallelAction(
+                                Robot.turnOuttakeUp_Down("up"),
+                                Robot.backboardAlign("backboard")
+                            ),
+                            Robot.turn90Outtake("turn")
                             /*Robot.openOutake("open"),
                             Robot.openOutake("close"),
                             Robot.turnOutake("noTurn"),
@@ -265,14 +273,18 @@ public class AutoRedStanga3Up extends LinearOpMode {
                             ),
                             //new SleepAction(0.2),
                             Robot.openOuttake("close"),
+                            Robot.turn90Outtake("noTurn"),
+                            new ParallelAction(
+                                Robot.turnOuttakeUp_Down("down"),
+                                Robot.backboardAlign("ground")
+                            ),
                             //new SleepAction(0.1),
-                            Robot.turnOuttake("noTurn"),
                             new ParallelAction(
                                     Robot.maturiceOpen_Close("off"),
                                     Robot.Intake("off"),
-                                    Robot.maturiceLevel("Level1")
-                            ),
-                            Robot.misumHeight("GROUND")
+                                    Robot.maturiceLevel("Level1"),
+                                    Robot.misumHeight("GROUND")
+                            )
                     ))
                     .build();
 
@@ -305,8 +317,12 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     ),*/                                 //Las deschis pentru urmatorii pixeli
                     //new SleepAction(0.1),
                     Robot.openOuttake("close"),
+                    new ParallelAction(
+                        Robot.turnOuttakeUp_Down("down"),
+                        Robot.backboardAlign("ground")
+                    ),
                     //new SleepAction(0.1),
-                    Robot.turnOuttake("noTurn"),
+                    Robot.turn90Outtake("noTurn"),
                     //new SleepAction(0.1),
                     Robot.misumHeight("GROUND"),
 
@@ -335,8 +351,12 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     ),*/                                  //Las deschis pentru urmatorii pixeli
                     //new SleepAction(0.1),
                     Robot.openOuttake("close"),
+                    new ParallelAction(
+                            Robot.turnOuttakeUp_Down("down"),
+                            Robot.backboardAlign("ground")
+                    ),
                     //new SleepAction(0.1),
-                    Robot.turnOuttake("noTurn"),
+                    Robot.turn90Outtake("noTurn"),
                     //new SleepAction(0.1),
                     Robot.misumHeight("GROUND"),
 
@@ -365,8 +385,12 @@ public class AutoRedStanga3Up extends LinearOpMode {
                     ),*/
                     //new SleepAction(0.1),
                     Robot.openOuttake("close"),
+                    new ParallelAction(
+                            Robot.turnOuttakeUp_Down("down"),
+                            Robot.backboardAlign("ground")
+                    ),
                     //new SleepAction(0.1),
-                    Robot.turnOuttake("noTurn"),
+                    Robot.turn90Outtake("noTurn"),
                     //new SleepAction(0.1),
                     Robot.misumHeight("GROUND"),
 

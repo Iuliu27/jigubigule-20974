@@ -152,10 +152,10 @@ public class TeleOP extends LinearOpMode {
             if(Robot.gamepad1Ex.wasJustPressed(GamepadKeys.Button.A) && misumMotorLeft.equals(LiftGROUND) && misumMotorRight.equals(LiftGROUND)){
                 if(!isAPressed){                                           //Turn outake la 90 de grade
                     isAPressed=true;
-                    runningActions.add(Robot.turnOuttake("turn"));
+                    runningActions.add(Robot.turn90Outtake("turn"));
                 } else {
                     isAPressed=false;
-                    runningActions.add(Robot.turnOuttake("noTurn"));
+                    runningActions.add(Robot.turn90Outtake("noTurn"));
                 }
             }
             if(Robot.gamepad2Ex.wasJustPressed(GamepadKeys.Button.A)){   //Open/Close outake
